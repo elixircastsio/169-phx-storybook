@@ -1,0 +1,29 @@
+<.back navigate={~p"/albums"}>Back to albums</.back>
+
+<.header>
+  Album
+  <:actions>
+    <.link patch={~p"/albums/#{@album}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit album</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @album.title %></:item>
+  <:item title="Artist"><%= @album.artist %></:item>
+  <:item title="Summary"><%= @album.summary %></:item>
+  <:item title="Year"><%= @album.year %></:item>
+  <:item title="Genre"><%= @album.genre %></:item>
+</.list>
+
+<.modal :if={@live_action == :edit} id="album-modal" show on_cancel={JS.patch(~p"/albums/#{@album}")}>
+  <.live_component
+    module={TeacherWeb.AlbumLive.FormComponent}
+    id={@album.id}
+    title={@page_title}
+    action={@live_action}
+    album={@album}
+    patch={~p"/albums/#{@album}"}
+  />
+</.modal>
